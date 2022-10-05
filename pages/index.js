@@ -1,10 +1,10 @@
-import allProducts from './data/products.json';
 import Head from 'next/head';
 
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
-export default function Home() {
+export default function Home({ allProducts }) {
   return (
     <>
       <Head>
@@ -40,6 +40,26 @@ export default function Home() {
 }
 
 export async function getStaticProps() {
+  const client = new ApolloClient({
+    uri: 'https://api-us-east-1.hygraph.com/v2/cl8uyz3s365rq01t8em876c5y/master',
+    cache: new InMemoryCache(),
+  });
+  const data = await client.query({
+    query: gql`
+      query ProductsQuery {
+        products {
+          id
+          name
+          slug
+          price
+          image {
+            url
+          }
+        }
+      }
+    `,
+  });
+  const allProducts = data.data.products;
   return {
     props: {
       allProducts,
