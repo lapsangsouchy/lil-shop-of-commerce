@@ -13,9 +13,9 @@ const Header = () => {
           </div>
         </a>
       </Link>
-      <div className={styles.nav_price}>
+      <div className='nav-price snipcart-checkout'>
         <span>🛒</span>
-        <p>$0.00</p>
+        <p className='snipcart-total-price'>$0.00</p>
       </div>
     </nav>
   );
